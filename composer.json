@@ -1,0 +1,38 @@
+{
+    "name": "larachimp/banana-repository",
+    "description": "Simple repository package for Laravel 5.",
+    "keywords": [
+        "php",
+        "Laravel5",
+        "database",
+        "repository",
+        "pattern"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Percy Mamedy",
+            "email": "percymamedy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "laravel/framework": "~5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "~5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaraChimp\\BananaRepo\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
