@@ -1,7 +1,7 @@
 <?php
 
 use Orchestra\Testbench\TestCase;
-use LaraChimp\MangoRepo\ServiceProvider;
+use LaraChimp\MangoRepo\MangoRepoServiceProvider;
 
 class TestRepository extends TestCase
 {
@@ -10,6 +10,6 @@ class TestRepository extends TestCase
      */
     protected function getPackageProviders($app)
     {
-        return [ServiceProvider::class];
+        return [MangoRepoServiceProvider::class];
     }
 }

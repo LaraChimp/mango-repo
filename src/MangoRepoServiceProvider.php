@@ -4,7 +4,7 @@ namespace LaraChimp\MangoRepo;
 
 use Illuminate\Support\ServiceProvider as BaseProvider;
 
-class ServiceProvider extends BaseProvider
+class MangoRepoServiceProvider extends BaseProvider
 {
     /**
      * Bootstrap the application services.
