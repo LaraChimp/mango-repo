@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraChimp\BananaRepo;
+namespace LaraChimp\MangoRepo;
 
 use Illuminate\Support\ServiceProvider as BaseProvider;
 

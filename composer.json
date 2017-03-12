@@ -1,5 +1,5 @@
 {
-    "name": "larachimp/banana-repository",
+    "name": "larachimp/mango-repo",
     "description": "Simple repository package for Laravel 5.",
     "keywords": [
         "php",
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LaraChimp\\BananaRepo\\": "src/"
+            "LaraChimp\\MangoRepo\\": "src/"
         }
     },
     "extra": {

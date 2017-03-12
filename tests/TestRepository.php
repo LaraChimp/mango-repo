@@ -1,7 +1,7 @@
 <?php
 
 use Orchestra\Testbench\TestCase;
-use LaraChimp\BananaRepo\ServiceProvider;
+use LaraChimp\MangoRepo\ServiceProvider;
 
 class TestRepository extends TestCase
 {
