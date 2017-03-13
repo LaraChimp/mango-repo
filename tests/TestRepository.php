@@ -1,15 +1,28 @@
 <?php
 
-use Orchestra\Testbench\TestCase;
-use LaraChimp\MangoRepo\MangoRepoServiceProvider;
+namespace LaraChimp\MangoRepo\Tests;
 
-class TestRepository extends TestCase
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+class TestRepository extends AbstractTestCase
 {
     /**
-     * {@inheritdoc}
+     * Test that the all method returns
+     * all models in the Database.
+     *
+     * @return void
      */
-    protected function getPackageProviders($app)
+    public function testAllMethod()
     {
-        return [MangoRepoServiceProvider::class];
+        /*$now = Carbon::now();
+
+        DB::table('users')->insert([
+            'email'      => 'hello@larachimp.com',
+            'password'   => Hash::make('123'),
+            'created_at' => $now,
+            'updated_at' => $now,
+        ]);*/
     }
 }
