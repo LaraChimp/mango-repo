@@ -16,13 +16,22 @@ class TestRepository extends AbstractTestCase
      */
     public function testAllMethod()
     {
-        /*$now = Carbon::now();
-
+        $now = Carbon::now();
         DB::table('users')->insert([
             'email'      => 'hello@larachimp.com',
+            'name'       => 'User 1',
             'password'   => Hash::make('123'),
             'created_at' => $now,
             'updated_at' => $now,
-        ]);*/
+        ]);
+
+        DB::table('users')->insert([
+            'email'      => 'hello2@larachimp.com',
+            'name'       => 'User 2',
+            'password'   => Hash::make('123'),
+            'created_at' => $now,
+            'updated_at' => $now,
+        ]);
+
     }
 }
