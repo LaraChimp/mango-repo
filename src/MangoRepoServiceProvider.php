@@ -2,7 +2,15 @@
 
 namespace LaraChimp\MangoRepo;
 
+use Illuminate\Database\Eloquent\Model;
+use LaraChimp\MangoRepo\Contracts\Repository;
+use Doctrine\Common\Annotations\FileCacheReader;
+use Doctrine\Common\Annotations\AnnotationReader;
+use LaraChimp\MangoRepo\Annotations\EloquentModel;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Support\ServiceProvider as BaseProvider;
+use LaraChimp\MangoRepo\Exceptions\InvalidModelException;
+use LaraChimp\MangoRepo\Exceptions\UnspecifiedModelException;
 
 class MangoRepoServiceProvider extends BaseProvider
 {
@@ -24,7 +32,7 @@ class MangoRepoServiceProvider extends BaseProvider
         if ($this->app->runningInConsole()) {
             // Publish Config file.
             $this->publishes([
-                __DIR__.'../config/mango-repo.php' => config_path('mango-repo.php')
+                __DIR__.'../config/mango-repo.php' => config_path('mango-repo.php'),
             ], 'mango-repo-config');
         }
     }
@@ -36,6 +44,85 @@ class MangoRepoServiceProvider extends BaseProvider
      */
     public function register()
     {
-        //
+        // Register Annotations.
+        $this->registerAnnotations();
+
+        // Tell Laravel how to resolve Repos.
+        $this->whenResolvingRepos();
+    }
+
+    /**
+     * We register Annotations here.
+     *
+     * @return void
+     */
+    protected function registerAnnotations()
+    {
+        AnnotationRegistry::registerFile(__DIR__."/Annotations/EloquentModel.php");
+    }
+
+    /**
+     * We use this function to tell Laravel how to
+     * resolve Repositories.
+     *
+     * @return void
+     */
+    protected function whenResolvingRepos()
+    {
+        $this->app->resolving(function ($repo) {
+            // This is a repo.
+            if ($repo instanceof Repository) {
+                // Sets its Model.
+                $repo->setModel($this->getEloquentModel($repo));
+            }
+        });
+    }
+
+    /**
+     * Get the Eloquent Model used by the Repo.
+     *
+     * @param Repository $repo
+     *
+     * @return Model
+     */
+    protected function getEloquentModel(Repository $repo)
+    {
+        // Create Annotation Reader.
+        $reader = $this->createAnnotationReader();
+
+        // Get Reflected class of the Repo.
+        $reflClass = new \ReflectionClass(get_class($repo));
+
+        // Get Class Annotations.
+        $classAnnotations = collect($reader->getClassAnnotations($reflClass))->reject(function ($item) {
+            return ! ($item instanceof EloquentModel);
+        });
+
+        // No EloquentModel annotation class found.
+        if ($classAnnotations->isEmpty()) {
+            throw new UnspecifiedModelException('No Eloquent Model could referenced be for "'.get_class($repo).'". Specify the Eloquent Model for this repository using the "@EloquentModel" annotation on the class.');
+        }
+
+        // Get EloquentModel
+        $eloquentModel = $this->app->make($classAnnotations->first()->target);
+
+        // Not an instance of Model.
+        if (! $eloquentModel instanceof Model) {
+            throw new InvalidModelException('Specified model target for the repository "'.get_class($repo).'" is not an Eloquent Model instance.');
+        }
+
+        // Return EloquentModel.
+        return $eloquentModel;
+    }
+
+    /**
+     * Create and return Doctrine Annotation reader.
+     *
+     * @return FileCacheReader
+     */
+    private function createAnnotationReader()
+    {
+        return new FileCacheReader(new AnnotationReader(), base_path('bootstrap/cache/mango-repo'),
+            (bool) config('app.debug'));
     }
 }

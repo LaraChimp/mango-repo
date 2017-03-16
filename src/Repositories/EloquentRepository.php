@@ -2,10 +2,42 @@
 
 namespace LaraChimp\MangoRepo\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
 use LaraChimp\MangoRepo\Contracts\Repository;
 
 abstract class EloquentRepository implements Repository
 {
+    /**
+     * The Eloquent Model.
+     *
+     * @var Model
+     */
+    protected $model;
+
+    /**
+     * Sets the Model to the Repo.
+     *
+     * @param Model $model
+     *
+     * @return self
+     */
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Gets the Eloquent Model instance.
+     *
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
     /**
      * {@inheritdoc}
      */
