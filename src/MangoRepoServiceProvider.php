@@ -32,7 +32,7 @@ class MangoRepoServiceProvider extends BaseProvider
         if ($this->app->runningInConsole()) {
             // Publish Config file.
             $this->publishes([
-                __DIR__.'../config/mango-repo.php' => config_path('mango-repo.php'),
+                __DIR__.'/../config/mango-repo.php' => config_path('mango-repo.php'),
             ], 'mango-repo-config');
         }
     }
@@ -44,6 +44,9 @@ class MangoRepoServiceProvider extends BaseProvider
      */
     public function register()
     {
+        // Merge MangoRepo Config.
+        $this->mergeConfigFrom(__DIR__.'/../config/mango-repo.php', 'mango-repo');
+
         // Register Annotations.
         $this->registerAnnotations();
 
@@ -58,7 +61,7 @@ class MangoRepoServiceProvider extends BaseProvider
      */
     protected function registerAnnotations()
     {
-        AnnotationRegistry::registerFile(__DIR__."/Annotations/EloquentModel.php");
+        AnnotationRegistry::registerFile(__DIR__.'/Annotations/EloquentModel.php');
     }
 
     /**
@@ -97,6 +100,7 @@ class MangoRepoServiceProvider extends BaseProvider
         $classAnnotations = collect($reader->getClassAnnotations($reflClass))->reject(function ($item) {
             return ! ($item instanceof EloquentModel);
         });
+        dump($classAnnotations);
 
         // No EloquentModel annotation class found.
         if ($classAnnotations->isEmpty()) {
@@ -105,6 +109,7 @@ class MangoRepoServiceProvider extends BaseProvider
 
         // Get EloquentModel
         $eloquentModel = $this->app->make($classAnnotations->first()->target);
+        dump($eloquentModel);
 
         // Not an instance of Model.
         if (! $eloquentModel instanceof Model) {
@@ -122,7 +127,11 @@ class MangoRepoServiceProvider extends BaseProvider
      */
     private function createAnnotationReader()
     {
-        return new FileCacheReader(new AnnotationReader(), base_path('bootstrap/cache/mango-repo'),
-            (bool) config('app.debug'));
+        // Specify debug mode.
+        $debugMode = (bool) config('app.debug');
+        // Get Cache Directory.
+        $cacheDir = config('mango-repo.annotations_cache_dir');
+
+        return new FileCacheReader(new AnnotationReader(), $cacheDir, $debugMode);
     }
 }
