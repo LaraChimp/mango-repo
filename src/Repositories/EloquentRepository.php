@@ -2,95 +2,11 @@
 
 namespace LaraChimp\MangoRepo\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
+use LaraChimp\MangoRepo\Traits\Repositorable;
 use LaraChimp\MangoRepo\Contracts\Repository;
+use LaraChimp\MangoRepo\Traits\RepositoryBootable;
 
 abstract class EloquentRepository implements Repository
 {
-    /**
-     * The Eloquent Model.
-     *
-     * @var Model
-     */
-    protected $model;
-
-    /**
-     * Sets the Model to the Repo.
-     *
-     * @param Model $model
-     *
-     * @return self
-     */
-    public function setModel(Model $model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    /**
-     * Gets the Eloquent Model instance.
-     *
-     * @return Model
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function all($columns = ['*'])
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function create(array $attributes = [])
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(array $values, $idOrModel)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($idOrModel)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function find($id, $columns = ['*'])
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findBy($criteria = [], $columns = ['*'])
-    {
-    }
+    use Repositorable, RepositoryBootable;
 }
