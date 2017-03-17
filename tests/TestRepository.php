@@ -5,6 +5,7 @@ namespace LaraChimp\MangoRepo\Tests;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Collection;
 use LaraChimp\MangoRepo\Tests\Fixtures\Models\User;
 use LaraChimp\MangoRepo\Tests\Fixtures\Repositories\UserRepository;
 
@@ -47,5 +48,23 @@ class TestRepository extends AbstractTestCase
             'created_at' => $now,
             'updated_at' => $now,
         ]);
+
+        $users = $this->app->make(UserRepository::class);
+        $usersInDb = $users->all();
+
+        $this->assertInstanceOf(Collection::class, $usersInDb);
+        $this->assertCount(2, $usersInDb);
+
+        $usersWithNamesAndEmailsOnly = $users->all(['name', 'email']);
+        $this->assertEquals([
+            [
+                'email' => 'hello@larachimp.com',
+                'name'  => 'User 1',
+            ],
+            [
+                'email' => 'hello2@larachimp.com',
+                'name'  => 'User 2',
+            ],
+        ], $usersWithNamesAndEmailsOnly->toArray());
     }
 }
