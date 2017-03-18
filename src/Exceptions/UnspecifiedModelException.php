@@ -11,7 +11,7 @@ class UnspecifiedModelException extends \RuntimeException
      *
      * @var string
      */
-    protected $message = 'No Eloquent Model could referenced. Specify the Eloquent Model for this repository using the "@EloquentModel" annotation on the class.';
+    protected $message = 'No Eloquent Model could be referenced. Specify the Eloquent Model for this repository using the "@EloquentModel" annotation on the class.';
 
     /**
      * UnspecifiedModelException constructor.

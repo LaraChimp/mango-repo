@@ -16,6 +16,7 @@ abstract class AbstractTestCase extends TestCase
     {
         parent::setUp();
         $this->createAppropriateTables();
+        $this->withFactories(__DIR__.'/Fixtures/database/factories');
     }
 
     /**
@@ -60,6 +61,12 @@ abstract class AbstractTestCase extends TestCase
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('foos', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -70,5 +77,6 @@ abstract class AbstractTestCase extends TestCase
     protected function dropAllTables()
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('foos');
     }
 }

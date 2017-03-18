@@ -1,10 +1,10 @@
 <?php
 
-namespace LaraChimp\MangoRepo\Traits;
+namespace LaraChimp\MangoRepo\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 
-trait Repositorable
+trait IsRepositorable
 {
     /**
      * The Eloquent Model.
@@ -63,6 +63,7 @@ trait Repositorable
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
+        return $this->getModel()->paginate($perPage, $columns, $pageName, $page);
     }
 
     /**
@@ -77,6 +78,7 @@ trait Repositorable
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
+        return $this->getModel()->simplePaginate($perPage, $columns, $pageName, $page);
     }
 
     /**
@@ -88,6 +90,8 @@ trait Repositorable
      */
     public function create(array $attributes = [])
     {
+        // Fill Model with data.
+        return $this->getModel()->create($attributes);
     }
 
     /**
