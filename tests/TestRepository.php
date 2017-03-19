@@ -3,7 +3,11 @@
 namespace LaraChimp\MangoRepo\Tests;
 
 use Illuminate\Database\Eloquent\Collection;
+use LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo;
+use LaraChimp\MangoRepo\Tests\Fixtures\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use LaraChimp\MangoRepo\Tests\Fixtures\Repositories\FooRepository;
+use LaraChimp\MangoRepo\Tests\Fixtures\Repositories\UserRepository;
 
 class TestRepository extends AbstractTestCase
 {
@@ -18,8 +22,8 @@ class TestRepository extends AbstractTestCase
      */
     public function testEloquentAnnotationOnRepositories()
     {
-        $users = $this->app->make(\LaraChimp\MangoRepo\Tests\Fixtures\Repositories\UserRepository::class);
-        $this->assertInstanceOf(\LaraChimp\MangoRepo\Tests\Fixtures\Models\User::class, $users->getModel());
+        $users = $this->app->make(UserRepository::class);
+        $this->assertInstanceOf(User::class, $users->getModel());
     }
 
     /**
@@ -30,28 +34,27 @@ class TestRepository extends AbstractTestCase
      */
     public function testRepositoriesWithTargetConst()
     {
-        $foos = $this->app->make(\LaraChimp\MangoRepo\Tests\Fixtures\Repositories\FooRepository::class);
-        $this->assertInstanceOf(\LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo::class, $foos->getModel());
+        $foos = $this->app->make(FooRepository::class);
+        $this->assertInstanceOf(Foo::class, $foos->getModel());
     }
 
     /**
-     * Test that the all method returns
-     * all models in the Database.
+     * Test the all method.
      *
      * @return void
      */
     public function testAllMethod()
     {
-        factory(\LaraChimp\MangoRepo\Tests\Fixtures\Models\User::class)->create([
+        factory(User::class)->create([
             'email' => 'hello@larachimp.com',
             'name'  => 'User 1',
         ]);
-        factory(\LaraChimp\MangoRepo\Tests\Fixtures\Models\User::class)->create([
+        factory(User::class)->create([
             'email' => 'hello2@larachimp.com',
             'name'  => 'User 2',
         ]);
 
-        $users = $this->app->make(\LaraChimp\MangoRepo\Tests\Fixtures\Repositories\UserRepository::class);
+        $users = $this->app->make(UserRepository::class);
         $usersInDb = $users->all();
 
         $this->assertInstanceOf(Collection::class, $usersInDb);
@@ -71,14 +74,14 @@ class TestRepository extends AbstractTestCase
     }
 
     /**
-     * Test the paginate method on repositories.
+     * Test the paginate method.
      *
      * @return void
      */
     public function testPaginateMethod()
     {
-        factory(\LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo::class, 20)->create();
-        $foos = $this->app->make(\LaraChimp\MangoRepo\Tests\Fixtures\Repositories\FooRepository::class);
+        factory(Foo::class, 20)->create();
+        $foos = $this->app->make(FooRepository::class);
 
         $foosPaginated = $foos->paginate(10);
 
@@ -87,14 +90,14 @@ class TestRepository extends AbstractTestCase
     }
 
     /**
-     * Test the simple paginate method works as expected.
+     * Test the simplePaginate method.
      *
      * @return void
      */
     public function testSimplePaginateMethod()
     {
-        factory(\LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo::class, 20)->create();
-        $foos = $this->app->make(\LaraChimp\MangoRepo\Tests\Fixtures\Repositories\FooRepository::class);
+        factory(Foo::class, 20)->create();
+        $foos = $this->app->make(FooRepository::class);
 
         $foosPaginated = $foos->simplePaginate(10);
 
@@ -103,22 +106,119 @@ class TestRepository extends AbstractTestCase
     }
 
     /**
-     * Test the Create method of the Repository.
+     * Test the create method.
      *
      * @return void
      */
     public function testCreateMethod()
     {
-        $fooEloquentModel = $this->app->make(\LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo::class);
-        $foos = $this->app->make(\LaraChimp\MangoRepo\Tests\Fixtures\Repositories\FooRepository::class);
+        $foos = $this->app->make(FooRepository::class);
 
-        $this->assertEquals(0, $fooEloquentModel->count());
+        $this->assertEquals(0, Foo::count());
 
         $foo = $foos->create([
             'name' => 'FooBar',
         ]);
 
-        $this->assertEquals(1, $fooEloquentModel->count());
-        $this->assertEquals($foo->name, $fooEloquentModel->first()->name);
+        $this->assertEquals(1, Foo::count());
+        $this->assertEquals($foo->name, Foo::first()->name);
+    }
+
+    /**
+     * Test the Update Method of the Repository
+     *
+     * @return void
+     */
+    public function testUpdateMethod()
+    {
+        $user = factory(User::class)->create([
+            'name'  => 'SomeUser',
+            'email' => 'some@email.com',
+        ]);
+
+        $users = $this->app->make(UserRepository::class);
+        $hasUpdated = $users->update(['name' => 'ChangedUserName'], $user);
+
+        $this->assertTrue($hasUpdated);
+        $this->assertEquals('ChangedUserName', $user->fresh()->name);
+
+        $hasUpdated = $users->update(['email' => 'someChanged@email.com'], $user->id);
+
+        $this->assertTrue($hasUpdated);
+        $this->assertEquals('someChanged@email.com', $user->fresh()->email);
+    }
+
+    /**
+     * Test the delete method.
+     *
+     * @expectedException \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return void
+     */
+    public function testDeleteMethod()
+    {
+        $user1 = factory(User::class)->create([
+            'name'  => 'User 1',
+            'email' => 'hello@larachimp.com',
+        ]);
+
+        $user2 = factory(User::class)->create([
+            'name'  => 'User 2',
+            'email' => 'helloAgain@larachimp.com',
+        ]);
+
+        $users = $this->app->make(UserRepository::class);
+        $users->delete($user1);
+        $users->delete($user2->id);
+
+        User::findOrFail($user1->id);
+        User::findOrFail($user2->id);
+    }
+
+    /**
+     * Test the find method.
+     *
+     * @return void
+     */
+    public function testFindMethod()
+    {
+        $user1 = factory(User::class)->create([
+            'name'  => 'User 1',
+            'email' => 'hello@larachimp.com',
+        ]);
+
+        $foundUser = $this->app->make(UserRepository::class)->find($user1->id);
+        $this->assertEquals('User 1', $foundUser->name);
+
+        $anotherUserNotFound = $this->app->make(UserRepository::class)->find(22);
+        $this->assertNull($anotherUserNotFound);
+
+        $userWithNameOnly = $this->app->make(UserRepository::class)->find($user1->id, ['name']);
+        $this->assertEquals([
+            'name' => 'User 1',
+        ], $userWithNameOnly->toArray());
+    }
+
+    /**
+     * Test the findOrFail method.
+     *
+     * @expectedException \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return void
+     */
+    public function testFindOrFailMethod()
+    {
+        $user1 = factory(User::class)->create([
+            'name'  => 'User 1',
+            'email' => 'hello@larachimp.com',
+        ]);
+
+        $foundUser = $this->app->make(UserRepository::class)->findOrFail($user1->id);
+        $this->assertEquals('User 1', $foundUser->name);
+
+        $this->app->make(UserRepository::class)->findOrFail(22);
+
+        $userWithNameOnly = $this->app->make(UserRepository::class)->findOrFail($user1->id, ['name']);
+        $this->assertEquals([
+            'name' => 'User 1',
+        ], $userWithNameOnly->toArray());
     }
 }

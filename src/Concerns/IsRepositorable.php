@@ -99,11 +99,17 @@ trait IsRepositorable
      *
      * @param array                                     $values
      * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
+     * @param array                                     $options
      *
-     * @return int
+     * @return bool
      */
-    public function update(array $values, $idOrModel)
+    public function update(array $values, $idOrModel, array $options = [])
     {
+        // Get the Model instance first.
+        $model = ($idOrModel instanceof Model) ? $idOrModel : $this->getModel()->findOrFail($idOrModel);
+
+        // Update model.
+        return $model->update($values, $options);
     }
 
     /**
@@ -115,6 +121,11 @@ trait IsRepositorable
      */
     public function delete($idOrModel)
     {
+        // Get the Model instance first.
+        $model = ($idOrModel instanceof Model) ? $idOrModel : $this->getModel()->findOrFail($idOrModel);
+
+        // Delete model.
+        return $model->delete();
     }
 
     /**
@@ -127,6 +138,22 @@ trait IsRepositorable
      */
     public function find($id, $columns = ['*'])
     {
+        return $this->getModel()->find($id, $columns);
+    }
+
+    /**
+     * Find a Model in the Database or throw an exception.
+     *
+     * @param mixed $id
+     * @param array $columns
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findOrFail($id, $columns = ['*'])
+    {
+        return $this->getModel()->findOrFail($id, $columns);
     }
 
     /**

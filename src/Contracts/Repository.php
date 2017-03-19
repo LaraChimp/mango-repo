@@ -53,10 +53,11 @@ interface Repository
      *
      * @param array                                     $values
      * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
+     * @param array                                     $options
      *
-     * @return int
+     * @return bool
      */
-    public function update(array $values, $idOrModel);
+    public function update(array $values, $idOrModel, array $options = []);
 
     /**
      * Delete a record from the database.
@@ -76,6 +77,18 @@ interface Repository
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function find($id, $columns = ['*']);
+
+    /**
+     * Find a Model in the Database or throw an exception.
+     *
+     * @param mixed $id
+     * @param array $columns
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findOrFail($id, $columns = ['*']);
 
     /**
      * Find a Model or Models Using some criteria.
