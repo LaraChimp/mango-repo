@@ -125,7 +125,7 @@ class TestRepository extends AbstractTestCase
     }
 
     /**
-     * Test the Update Method of the Repository
+     * Test the update method.
      *
      * @return void
      */
