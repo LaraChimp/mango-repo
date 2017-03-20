@@ -162,9 +162,22 @@ trait IsRepositorable
      * @param array $criteria
      * @param array $columns
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Collection|null
      */
     public function findBy($criteria = [], $columns = ['*'])
     {
+        // Get Model instance.
+        $model = $this->getModel();
+
+        // We have some criteria.
+        if (! empty($criteria)) {
+            // Loop and add each criteria to model.
+            foreach ($criteria as $field => $value) {
+                $model = $model->where($field, $value);
+            }
+        }
+
+        // Return models.
+        return $model->get($columns);
     }
 }

@@ -21,6 +21,7 @@ $factory->define(LaraChimp\MangoRepo\Tests\Fixtures\Models\User::class, function
         'email'          => $faker->unique()->safeEmail,
         'password'       => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'is_active'      => true,
     ];
 });
 

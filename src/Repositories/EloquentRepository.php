@@ -7,5 +7,7 @@ use LaraChimp\MangoRepo\Contracts\Repository;
 
 abstract class EloquentRepository implements Repository
 {
-    use Concerns\IsRepositoryBootable, Concerns\IsRepositorable;
+    use Concerns\IsRepositorable,
+        Concerns\IsRepositoryBootable,
+        Concerns\IsRepositoryScopable;
 }

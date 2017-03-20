@@ -96,7 +96,7 @@ interface Repository
      * @param array $criteria
      * @param array $columns
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Collection|null
      */
     public function findBy($criteria = [], $columns = ['*']);
 }

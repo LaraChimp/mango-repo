@@ -221,4 +221,48 @@ class TestRepository extends AbstractTestCase
             'name' => 'User 1',
         ], $userWithNameOnly->toArray());
     }
+
+    /**
+     * Test the findBy method.
+     *
+     * @return void
+     */
+    public function testFindByMethod()
+    {
+        factory(Foo::class, 3)->create([
+            'name' => 'FooBar',
+        ]);
+
+        factory(Foo::class, 4)->create([
+            'name' => 'Baz',
+        ]);
+
+        factory(Foo::class, 2)->create([
+            'name' => 'Bin',
+        ]);
+
+        $foos = $this->app->make(FooRepository::class);
+        $fooBars = $foos->findBy([
+            'name' => 'FooBar',
+        ]);
+
+        $this->assertInstanceOf(Collection::class, $fooBars);
+        $this->assertCount(3, $fooBars);
+
+        $bazs = $foos->findBy(['id' => 1, 'name' => 'FooBar']);
+        $this->assertInstanceOf(Collection::class, $bazs);
+        $this->assertCount(1, $bazs);
+
+        $bins = $foos->findBy(['name' => 'Bin'], ['name']);
+        $this->assertInstanceOf(Collection::class, $bins);
+        $this->assertCount(2, $bins);
+        $this->assertEquals([
+            [
+                'name' => 'Bin',
+            ],
+            [
+                'name' => 'Bin',
+            ],
+        ], $bins->toArray());
+    }
 }
