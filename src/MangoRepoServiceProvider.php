@@ -2,6 +2,7 @@
 
 namespace LaraChimp\MangoRepo;
 
+use LaraChimp\MangoRepo\Console;
 use LaraChimp\MangoRepo\Contracts\Repository;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Support\ServiceProvider as BaseProvider;
@@ -21,6 +22,11 @@ class MangoRepoServiceProvider extends BaseProvider
             $this->publishes([
                 __DIR__.'/../config/mango-repo.php' => config_path('mango-repo.php'),
             ], 'mango-repo-config');
+
+            // Register Commands.
+            $this->commands([
+                Console\MakeCommand::class
+            ]);
         }
 
         $this->bootRepositories();

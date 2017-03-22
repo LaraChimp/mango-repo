@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use LaraChimp\MangoRepo\Annotations\EloquentModel;
+use LaraChimp\MangoRepo\Repositories\EloquentRepository;
+
+/**
+ * @EloquentModel(target="DummyTargetModel")
+ */
+class DummyClass extends EloquentRepository
+{
+    //
+}

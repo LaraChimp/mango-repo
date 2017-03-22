@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+use LaraChimp\MangoRepo\Repositories\EloquentRepository;
+
+class DummyClass extends EloquentRepository
+{
+    /**
+     * The target Eloquent Model.
+     */
+    const TARGET = \DummyTargetModel::class;
+}
