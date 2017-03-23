@@ -17,5 +17,6 @@
     </testsuites>
     <php>
         <env name="APP_DEBUG" value="true"/>
+        <env name="CACHE_DRIVER" value="array"/>
     </php>
 </phpunit>

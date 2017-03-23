@@ -18,7 +18,8 @@
     "require": {
         "php": ">=5.6.0",
         "laravel/framework": "~5.0",
-        "doctrine/annotations": "~1.4"
+        "doctrine/annotations": "~1.4",
+        "doctrine/cache": "^1.6"
     },
     "require-dev": {
         "orchestra/testbench": "~3.0",

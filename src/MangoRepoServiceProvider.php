@@ -2,10 +2,15 @@
 
 namespace LaraChimp\MangoRepo;
 
+use Doctrine\Common\Cache\Cache;
 use LaraChimp\MangoRepo\Console;
 use LaraChimp\MangoRepo\Contracts\Repository;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use LaraChimp\MangoRepo\Doctrine\Annotations\Reader;
 use Illuminate\Support\ServiceProvider as BaseProvider;
+use Doctrine\Common\Annotations\Reader as ReaderContract;
+use LaraChimp\MangoRepo\Doctrine\Cache\LaravelCacheDriver;
 
 class MangoRepoServiceProvider extends BaseProvider
 {
@@ -18,14 +23,9 @@ class MangoRepoServiceProvider extends BaseProvider
     {
         // Make sure we are running in console
         if ($this->app->runningInConsole()) {
-            // Publish Config file.
-            $this->publishes([
-                __DIR__.'/../config/mango-repo.php' => config_path('mango-repo.php'),
-            ], 'mango-repo-config');
-
             // Register Commands.
             $this->commands([
-                Console\MakeCommand::class
+                Console\MakeCommand::class,
             ]);
         }
 
@@ -39,18 +39,28 @@ class MangoRepoServiceProvider extends BaseProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/mango-repo.php', 'mango-repo');
         $this->registerAnnotations();
     }
 
     /**
-     * We register Annotations here.
+     * We register Annotations and
+     * it's services here.
      *
      * @return void
      */
     protected function registerAnnotations()
     {
+        // Annotation File registration.
         AnnotationRegistry::registerFile(__DIR__.'/Annotations/EloquentModel.php');
+
+        // Contextually specify dependencies of our Annotation Reader.
+        $this->app->when(Reader::class)->needs(ReaderContract::class)->give(function () {
+            return new AnnotationReader();
+        });
+
+        $this->app->when(Reader::class)->needs(Cache::class)->give(function () {
+            return new LaravelCacheDriver($this->app->make('cache'));
+        });
     }
 
     /**
