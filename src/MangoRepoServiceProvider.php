@@ -3,7 +3,6 @@
 namespace LaraChimp\MangoRepo;
 
 use Doctrine\Common\Cache\Cache;
-use LaraChimp\MangoRepo\Console;
 use LaraChimp\MangoRepo\Contracts\Repository;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
