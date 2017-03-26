@@ -18,7 +18,9 @@ trait IsRepositoryScopable
         // Get Model
         $model = $this->getModel();
 
-        /*dd(method_exists($model, $name));
-        dd($arguments);*/
+        // Apply scope and get builder.
+        $builder = call_user_func_array([$model, $name], $arguments);
+
+        return $builder;
     }
 }

@@ -30,3 +30,10 @@ $factory->define(LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo::class, function 
         'name' => $faker->name,
     ];
 });
+
+$factory->define(LaraChimp\MangoRepo\Tests\Fixtures\Models\Bar::class, function (Faker\Generator $faker) {
+    return [
+        'name'      => $faker->name,
+        'is_active' => true,
+    ];
+});

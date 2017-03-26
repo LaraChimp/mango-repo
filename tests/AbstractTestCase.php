@@ -68,6 +68,13 @@ abstract class AbstractTestCase extends TestCase
             $table->string('name');
             $table->timestamps();
         });
+
+        Schema::create('bars', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->boolean('is_active')->default(false);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -79,5 +86,6 @@ abstract class AbstractTestCase extends TestCase
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('foos');
+        Schema::dropIfExists('bars');
     }
 }
