@@ -8,3 +8,286 @@
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/license" alt="License"></a>
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/downloads" alt="Total Downloads"></a>
 </p>
+
+## Introduction
+Mango Repo is an Eloquent Repository package that aims at bringing an easy to use and fluent API. Getting started with repository pattern can be 
+quite overwhelming. This is especially true for newcomers to Eloquent who are getting the grasp of active record. Behind the scenes Mango Repo 
+tries to use as much of the Eloquent API as possible and keeping things simple.
+
+## License
+Mango Repo is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+### Installation
+Install Mango Repo as you would with any other dependency managed by composer.
+
+```php
+$ composer require larachimp/mango-repo
+```
+
+### Configuration
+After installing Mango repo all you need is to register the ```LaraChimp\MangoRepo\MangoRepoServiceProvider``` in your `config/app.php` configuration file:
+
+```php
+'providers' => [
+    // Other service providers...
+
+    LaraChimp\MangoRepo\MangoRepoServiceProvider::class,
+],
+```
+
+### Creating a repository class
+Use the ```mango:make``` command to create your repository classes. This command will take as argument the repository class namesapce (from App) and 
+a ```--model``` option which allows you to specify the full namespace of the Eloquent model to which the repository will be tied.
+
+```php
+$ php artisan mango:make Repositories\FooRepository --model=App\Models\Foo
+```
+
+The above command will generate the following repository class in the ```app/Repositories``` directory.
+
+```php
+<?php
+
+namespace App\Repositories;
+
+use LaraChimp\MangoRepo\Repositories\EloquentRepository;
+
+class FooRepository extends EloquentRepository
+{
+    /**
+     * The target Eloquent Model.
+     */
+    const TARGET = \App\Models\Foo::class;
+}
+```
+
+Notice the ```const TARGET``` which specifies the Eloquent Model the repository will make use of. If you would like to keep things a little bit
+simpler, the ```mango:make``` command allows you to specify an optional ```--annotated``` option which generates a repository class that uses annotations
+for specifying the Eloquent Model.
+
+```php
+$ php artisan mango:make Repositories\FooRepository --model=App\Models\Foo --annotated
+```
+
+The above command will generate the following repository class in the ```app/Repositories``` directory.
+
+```php
+<?php
+
+namespace App\Repositories;
+
+use LaraChimp\MangoRepo\Annotations\EloquentModel;
+use LaraChimp\MangoRepo\Repositories\EloquentRepository;
+
+/**
+ * @EloquentModel(target="App\Models\Foo")
+ */
+class FooRepositoryAnnotated extends EloquentRepository
+{
+    //
+}
+```
+
+### Using the repository
+After creating your repository class, you may use it by resolving it via Laravel's Service container; either by dependency injection or by using the ```app()```
+method.
+
+In the following controller, we injected our ```FooRepository``` in the constructor and used it from our index method. Take note that the repository class
+can be injected in not only controllers' contructors, but also methods and any service which is resolved by the service container.
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Repositories\FooRepository;
+
+class FooController extends Controller 
+{
+    /**
+     * FooRepository instance.
+     * 
+     * @var FooRepository
+     */
+    protected $foos;
+    
+    public function __construct(FooRepository $foos) 
+    {
+        $this->foos = $foos;
+    }
+    
+    public function index()
+    {
+        $fooBars = $this->foos->all();
+        //
+    }
+}
+```
+
+You can also use the ```app()``` or ```app()->make()``` method to resolve an intance of your repository class and use it as you please.
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Repositories\FooRepository;
+
+class FooController extends Controller 
+{
+    public function index()
+    {
+        $fooBars = app()->make(FooRepository::class)->all();
+        //
+    }
+}
+```
+
+Although resolving repository classes from the service container seems the most efficient way to building up an instance, you may prefer to instantiate
+your repository classes manually for some reasons. To achieve this call the ```boot()``` method on the new instance before using it.
+
+The ```boot()``` method will take care of loading the repository class dependencies for us.
+
+```php
+$foos = (new \App\Repositories\FooRepository())->boot();
+```
+
+### Available Methods
+Out of the box, repository classes comes with these methods already written for you. However, you are free to add your own methods or override 
+existing methods in your repsitory class for building your own custom API and business logic.
+
+To keep things as simple as possible, for many of theses methods, Mango Repo makes use of the same methods available on the Eloquent Model.
+Hence, Mango Repo's API tries to be as close to Eloquent's API as possible.
+
+#### ```all()```
+Get all of the models from the database. 
+
+```php
+$users = app(UserRepository::class)->all();
+
+// Illuminate\Database\Eloquent\Collection
+```
+or
+```php
+$users = app(UserRepository::class)->all(['name', 'email']);
+
+// Illuminate\Database\Eloquent\Collection instance
+```
+
+#### ```paginate()```
+Paginate the models from the database.
+
+```php
+$users = app(UserRepository::class)->paginate(10, ['name', 'email']);
+
+// Illuminate\Contracts\Pagination\LengthAwarePaginator instance
+```
+
+#### ```simplePaginate()```
+Paginate the models from the database into a simple paginator.
+
+```php
+$users = app(UserRepository::class)->simplePaginate(10, ['name', 'email']);
+
+// Illuminate\Contracts\Pagination\Paginator
+```
+
+#### ```create()```
+Save a new model and return the instance.
+
+```php
+$user = app(UserRepository::class)->create([
+            'name'     => 'John Doe', 
+            'email'    => 'john@doe.com'
+            'password' => Hash::make('secret')
+         ]);
+ 
+ // Illuminate\Database\Eloquent\Model
+```
+
+#### ```update()```
+Update a Model in the database. The update method accepts as its second argument
+either the Model instance or the Model id.
+
+```php
+app(UserRepository::class)->update(['name' => 'John Smith'], $user_id);
+
+// bool
+```
+or
+```php
+app(UserRepository::class)->update(['name' => 'John Smith'], $user);
+
+// bool
+```
+
+#### ```delete()```
+Delete a record from the database.The delete method accepts as its first argument 
+either the Model instance or the Model id.
+
+```php
+app(UserRepository::class)->delete($user_id);
+
+// bool
+```
+or
+```php
+app(UserRepository::class)->delete($user);
+
+// bool
+```
+
+#### ```find()```
+Find a Model in the Database using the ID.
+
+```php
+app(UserRepository::class)->find($user_id);
+
+// Illuminate\Database\Eloquent\Model
+```
+or
+```php
+app(UserRepository::class)->find($user_id, ['name', 'email']);
+
+// Illuminate\Database\Eloquent\Model
+```
+
+#### ```findOrFail()```
+Find a Model in the Database or throw an exception.
+
+```php
+app(UserRepository::class)->findOrFail($user_id);
+
+// Illuminate\Database\Eloquent\Model
+```
+or
+```php
+app(UserRepository::class)->findOrFail($user_id, ['name', 'email']);
+
+// Illuminate\Database\Eloquent\Model
+```
+
+#### ```findBy()```
+Find a Model or Models Using some criteria.
+
+```php
+app(UserRepository::class)->findBy(['last_name' => 'Doe']);
+
+// Illuminate\Database\Eloquent\Collection
+```
+or
+```php
+app(UserRepository::class)->findBy(['last_name' => 'Doe'], ['last_name', 'email']);
+
+// Illuminate\Database\Eloquent\Collection
+```
+
+### Model Repository Scoping
+
+
+
+
+
+
+
+
