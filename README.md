@@ -282,7 +282,108 @@ app(UserRepository::class)->findBy(['last_name' => 'Doe'], ['last_name', 'email'
 // Illuminate\Database\Eloquent\Collection
 ```
 
+#### ```getModel()```
+Gets the Eloquent Model instance.
+
+```php
+app(UserRepository::class)->getModel();
+
+// Illuminate\Database\Eloquent\Model
+```
+
 ### Model Repository Scoping
+Mango Repo do not make use of long and tidieous "Criterias classes" for filtering queries, instead any repository class 
+created using the ```mango:make``` command can be "Model Scoped". In simpler terms this only means that you may access 
+[Local Query Scopes](https://laravel.com/docs/master/eloquent#local-scopes) defined on your models directly on the repository class.
+
+Hence you define your query scopes once on your model classes and use them directly on your repository classes for query filtering.
+
+Consider the following example.
+
+```php
+<?php
+
+namespace LaraChimp\MangoRepo\Tests\Fixtures\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
+class User extends Model
+{
+    //...
+    
+    /**
+     * Apply an is active scope filter to the model.
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+}
+```
+
+Since we've defined a local scope ```Active``` on our User Model, we do not have to re-write the same scope twice within our
+repository class. We simple use it directly on the repository class. Yes as simple as that!!
+
+```php
+$activeUsers = app(UserRepository::class)->active()->get();
+
+// Illuminate\Database\Eloquent\Collection
+```
+
+You may even chain scopes and apply other filters as you would for any Eloquent Model instance.
+
+```php
+ $users = app(UserRepository::class)->popular()->active()->orderBy('created_at')->get();
+ 
+ // Illuminate\Database\Eloquent\Collection
+```
+
+### Going Further
+We think we've done a good job here at creating a simple but yet rich boilerplate for creating repository classes and in most cases
+you would probably just create repository classes using the ```mango:make``` command like a breeze. However, if you still are not satisfied
+and require creating your custom repository classes that do not need to be Model Scoped and so on; fear not we've got you covered.
+
+First start by creating a class that implements ```LaraChimp\MangoRepo\Contracts\Repository``` interface. Now you may implement all the
+methods available as you wish.
+
+```php
+<?php
+
+namespace Acme\Company;
+
+use LaraChimp\MangoRepo\Contracts\Repository;
+
+class MyCompanyRepo implements Repository
+{
+    public function all($columns = ['*'])
+    {
+        // ...
+    }
+    
+    // ...
+}
+```
+
+Remember you do not need to implement these methods again, you may use the ```LaraChimp\MangoRepo\Concerns\IsRepositorable``` trait 
+which already implements those method for you.
+
+If you would like the repository to be bootable use the ```LaraChimp\MangoRepo\Concerns\IsRepositoryBootable``` trait, and for Model Scoping
+use ```LaraChimp\MangoRepo\Concerns\IsRepositoryScopable```
+
+### Credits
+Big Thanks to all developers who worked hard to create something amazing !!
+
+[![LaraChimp](https://img.shields.io/badge/Author-LaraChimp-blue.svg?style=flat-square)](https://github.com/LaraChimp)
+
+#### Creator
+Twitter: [@PercyMamedy](https://twitter.com/PercyMamedy)
+<br/>
+GitHub: [percymamedy](https://github.com/percymamedy)
 
 
 
