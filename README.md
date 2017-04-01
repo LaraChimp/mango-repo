@@ -1,4 +1,6 @@
-<h2 align="center">Mango Repo</h1>
+<h2 align="center">
+   <img src="https://raw.githubusercontent.com/LaraChimp/art-work/master/packages/mango-repo/mango-repo-art.png"> Mango Repo
+</h1>
 
 <p align="center">
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/v/stable" alt="Latest Stable Version"></a>
