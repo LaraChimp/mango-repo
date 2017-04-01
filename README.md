@@ -9,6 +9,7 @@
     <a href="https://styleci.io/repos/84470262"><img src="https://styleci.io/repos/84470262/shield?branch=master" alt="StyleCI"></a>
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/license" alt="License"></a>
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/downloads" alt="Total Downloads"></a>
+    <a href="https://insight.sensiolabs.com/projects/f21891ce-4b48-4507-aa4b-a25474571473" alt=medal"><img src="https://insight.sensiolabs.com/projects/f21891ce-4b48-4507-aa4b-a25474571473/mini.png"></a>
 </p>
 
 ## Introduction
