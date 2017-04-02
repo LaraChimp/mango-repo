@@ -49,8 +49,8 @@ class MakeCommand extends GeneratorCommand
     /**
      * Replace the namespace for the given stub.
      *
-     * @param  string $stub
-     * @param  string $name
+     * @param string $stub
+     * @param string $name
      *
      * @return $this
      */
