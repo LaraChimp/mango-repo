@@ -43,7 +43,7 @@ Use the ```mango:make``` command to create your repository classes. This command
 a ```--model``` option which allows you to specify the full namespace of the Eloquent model to which the repository will be tied.
 
 ```php
-$ php artisan mango:make Repositories\FooRepository --model=App\Models\Foo
+$ php artisan mango:make "Repositories\FooRepository" --model="App\Models\Foo"
 ```
 
 The above command will generate the following repository class in the ```app/Repositories``` directory.
@@ -69,7 +69,7 @@ simpler, the ```mango:make``` command allows you to specify an optional ```--ann
 for specifying the Eloquent Model.
 
 ```php
-$ php artisan mango:make Repositories\FooRepository --model=App\Models\Foo --annotated
+$ php artisan mango:make "Repositories\FooRepository" --model="App\Models\Foo" --annotated
 ```
 
 The above command will generate the following repository class in the ```app/Repositories``` directory.
