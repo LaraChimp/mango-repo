@@ -15,6 +15,20 @@ class MakeCommand extends GeneratorCommand
     protected $name = 'mango:make';
 
     /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new repository class';
+
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Repository';
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -35,8 +49,9 @@ class MakeCommand extends GeneratorCommand
     /**
      * Replace the namespace for the given stub.
      *
-     * @param  string  $stub
-     * @param  string  $name
+     * @param  string $stub
+     * @param  string $name
+     *
      * @return $this
      */
     protected function replaceNamespace(&$stub, $name)
