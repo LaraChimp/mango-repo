@@ -31,7 +31,7 @@ class LaravelCacheDriver extends CacheProvider
     {
         // We have no lifetime
         // so cache forever.
-        if($lifeTime == 0) {
+        if ($lifeTime == 0) {
             $this->cache->forever($id, $data);
         } else {
             $this->cache->put($id, $data, $lifeTime);
