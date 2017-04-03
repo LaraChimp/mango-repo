@@ -29,9 +29,15 @@ class LaravelCacheDriver extends CacheProvider
      */
     protected function doSave($id, $data, $lifeTime = 0)
     {
-        $this->cache->put($id, $data, $lifeTime);
+        // We have no lifetime
+        // so cache forever.
+        if ($lifeTime == 0) {
+            $this->cache->forever($id, $data);
+        } else {
+            $this->cache->put($id, $data, $lifeTime);
+        }
 
-        return true;
+        return $this->doContains($id);
     }
 
     /**
