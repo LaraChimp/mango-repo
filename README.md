@@ -1,6 +1,6 @@
 <h2 align="center">
    <img src="https://raw.githubusercontent.com/LaraChimp/art-work/master/packages/mango-repo/mango-repo-art.png"> Mango Repo
-</h1>
+</h2>
 
 <p align="center">
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/v/stable" alt="Latest Stable Version"></a>
@@ -9,7 +9,7 @@
     <a href="https://styleci.io/repos/84470262"><img src="https://styleci.io/repos/84470262/shield?branch=master" alt="StyleCI"></a>
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/license" alt="License"></a>
     <a href="https://packagist.org/packages/larachimp/mango-repo"><img src="https://poser.pugx.org/larachimp/mango-repo/downloads" alt="Total Downloads"></a>
-    <a href="https://insight.sensiolabs.com/projects/f21891ce-4b48-4507-aa4b-a25474571473" alt=medal"><img src="https://insight.sensiolabs.com/projects/f21891ce-4b48-4507-aa4b-a25474571473/mini.png"></a>
+    <a href="https://insight.sensiolabs.com/projects/f21891ce-4b48-4507-aa4b-a25474571473" alt="medal"><img src="https://insight.sensiolabs.com/projects/f21891ce-4b48-4507-aa4b-a25474571473/mini.png"></a>
 </p>
 
 ## Introduction
@@ -18,12 +18,12 @@ quite overwhelming. This is especially true for newcomers to Eloquent who are ge
 tries to use as much of the Eloquent API as possible and keeping things simple.
 
 ## License
-Mango Repo is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Mango Repo is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
 ### Installation
-Install Mango Repo as you would with any other dependency managed by composer.
+Install Mango Repo as you would with any other dependency managed by Composer:
 
-```php
+```bash
 $ composer require larachimp/mango-repo
 ```
 
@@ -42,11 +42,11 @@ After installing Mango repo all you need is to register the ```LaraChimp\MangoRe
 Use the ```mango:make``` command to create your repository classes. This command will take as argument the repository class namesapce (from App) and 
 a ```--model``` option which allows you to specify the full namespace of the Eloquent model to which the repository will be tied.
 
-```php
+```bash
 $ php artisan mango:make "Repositories\FooRepository" --model="App\Models\Foo"
 ```
 
-The above command will generate the following repository class in the ```app/Repositories``` directory.
+The above command will generate the following repository class in the ```app/Repositories``` directory:
 
 ```php
 <?php
@@ -64,15 +64,15 @@ class FooRepository extends EloquentRepository
 }
 ```
 
-Notice the ```const TARGET``` which specifies the Eloquent Model the repository will make use of. If you would like to keep things a little bit
+Notice the ```const TARGET``` which specifies the Eloquent model the repository will make use of. If you would like to keep things a little bit
 simpler, the ```mango:make``` command allows you to specify an optional ```--annotated``` option which generates a repository class that uses annotations
-for specifying the Eloquent Model.
+for specifying the Eloquent model:
 
-```php
+```bash
 $ php artisan mango:make "Repositories\FooRepository" --model="App\Models\Foo" --annotated
 ```
 
-The above command will generate the following repository class in the ```app/Repositories``` directory.
+The above command will generate the following repository class in the ```app/Repositories``` directory:
 
 ```php
 <?php
@@ -95,8 +95,7 @@ class FooRepositoryAnnotated extends EloquentRepository
 After creating your repository class, you may use it by resolving it via Laravel's Service container; either by dependency injection or by using the ```app()```
 method.
 
-In the following controller, we injected our ```FooRepository``` in the constructor and used it from our index method. Take note that the repository class
-can be injected in not only controllers' contructors, but also methods and any service which is resolved by the service container.
+In the following controller, we injected our ```FooRepository``` in the constructor and used it from our index method:
 
 ```php
 <?php
@@ -127,7 +126,9 @@ class FooController extends Controller
 }
 ```
 
-You can also use the ```app()``` or ```app()->make()``` method to resolve an intance of your repository class and use it as you please.
+> Take note that the repository class can be injected in not only controllers' constructors, but also methods and any service which is resolved by the service container.
+
+You can also use the ```app()``` or ```app()->make()``` method to resolve an instance of your repository class and use it as you please:
 
 ```php
 <?php
@@ -149,7 +150,7 @@ class FooController extends Controller
 Although resolving repository classes from the service container seems the most efficient way to building up an instance, you may prefer to instantiate
 your repository classes manually for some reasons. To achieve this call the ```boot()``` method on the new instance before using it.
 
-The ```boot()``` method will take care of loading the repository class dependencies for us.
+The ```boot()``` method will take care of loading the repository class dependencies for us:
 
 ```php
 $foos = (new \App\Repositories\FooRepository())->boot();
@@ -157,20 +158,20 @@ $foos = (new \App\Repositories\FooRepository())->boot();
 
 ### Available Methods
 Out of the box, repository classes comes with these methods already written for you. However, you are free to add your own methods or override 
-existing methods in your repsitory class for building your own custom API and business logic.
+existing methods in your repository class for building your own custom API and business logic.
 
-To keep things as simple as possible, for many of theses methods, Mango Repo makes use of the same methods available on the Eloquent Model.
+To keep things as simple as possible, for many of theses methods, Mango Repo makes use of the same methods available on the Eloquent model.
 Hence, Mango Repo's API tries to be as close to Eloquent's API as possible.
 
 #### ```all()```
-Get all of the models from the database. 
+Get all of the models from the database: 
 
 ```php
 $users = app(UserRepository::class)->all();
 
 // Illuminate\Database\Eloquent\Collection
 ```
-or
+or:
 ```php
 $users = app(UserRepository::class)->all(['name', 'email']);
 
@@ -178,7 +179,7 @@ $users = app(UserRepository::class)->all(['name', 'email']);
 ```
 
 #### ```paginate()```
-Paginate the models from the database.
+Paginate the models from the database:
 
 ```php
 $users = app(UserRepository::class)->paginate(10, ['name', 'email']);
@@ -187,7 +188,7 @@ $users = app(UserRepository::class)->paginate(10, ['name', 'email']);
 ```
 
 #### ```simplePaginate()```
-Paginate the models from the database into a simple paginator.
+Paginate the models from the database into a simple paginator:
 
 ```php
 $users = app(UserRepository::class)->simplePaginate(10, ['name', 'email']);
@@ -196,7 +197,7 @@ $users = app(UserRepository::class)->simplePaginate(10, ['name', 'email']);
 ```
 
 #### ```create()```
-Save a new model and return the instance.
+Save a new model and return the instance:
 
 ```php
 $user = app(UserRepository::class)->create([
@@ -209,15 +210,15 @@ $user = app(UserRepository::class)->create([
 ```
 
 #### ```update()```
-Update a Model in the database. The update method accepts as its second argument
-either the Model instance or the Model id.
+Update a model in the database. The update method accepts as its second argument
+either the model instance or the model id:
 
 ```php
-app(UserRepository::class)->update(['name' => 'John Smith'], $user_id);
+app(UserRepository::class)->update(['name' => 'John Smith'], $userId);
 
 // bool
 ```
-or
+or:
 ```php
 app(UserRepository::class)->update(['name' => 'John Smith'], $user);
 
@@ -226,14 +227,14 @@ app(UserRepository::class)->update(['name' => 'John Smith'], $user);
 
 #### ```delete()```
 Delete a record from the database.The delete method accepts as its first argument 
-either the Model instance or the Model id.
+either the model instance or the model id:
 
 ```php
-app(UserRepository::class)->delete($user_id);
+app(UserRepository::class)->delete($userId);
 
 // bool
 ```
-or
+or:
 ```php
 app(UserRepository::class)->delete($user);
 
@@ -241,14 +242,14 @@ app(UserRepository::class)->delete($user);
 ```
 
 #### ```find()```
-Find a Model in the Database using the ID.
+Find a Model in the Database using the ID:
 
 ```php
-app(UserRepository::class)->find($user_id);
+app(UserRepository::class)->find($userId);
 
 // Illuminate\Database\Eloquent\Model
 ```
-or
+or:
 ```php
 app(UserRepository::class)->find($user_id, ['name', 'email']);
 
@@ -256,29 +257,29 @@ app(UserRepository::class)->find($user_id, ['name', 'email']);
 ```
 
 #### ```findOrFail()```
-Find a Model in the Database or throw an exception.
+Find a model in the database or throw an exception:
 
 ```php
-app(UserRepository::class)->findOrFail($user_id);
+app(UserRepository::class)->findOrFail($userId);
 
 // Illuminate\Database\Eloquent\Model
 ```
-or
+or:
 ```php
-app(UserRepository::class)->findOrFail($user_id, ['name', 'email']);
+app(UserRepository::class)->findOrFail($userId, ['name', 'email']);
 
 // Illuminate\Database\Eloquent\Model
 ```
 
 #### ```findBy()```
-Find a Model or Models Using some criteria.
+Find a model or models using some criteria:
 
 ```php
 app(UserRepository::class)->findBy(['last_name' => 'Doe']);
 
 // Illuminate\Database\Eloquent\Collection
 ```
-or
+or:
 ```php
 app(UserRepository::class)->findBy(['last_name' => 'Doe'], ['last_name', 'email']);
 
@@ -286,7 +287,7 @@ app(UserRepository::class)->findBy(['last_name' => 'Doe'], ['last_name', 'email'
 ```
 
 #### ```getModel()```
-Gets the Eloquent Model instance.
+Gets the Eloquent model instance:
 
 ```php
 app(UserRepository::class)->getModel();
@@ -295,13 +296,13 @@ app(UserRepository::class)->getModel();
 ```
 
 ### Model Repository Scoping
-Mango Repo do not make use of long and tidieous "Criterias classes" for filtering queries, instead any repository class 
+Mango Repo do not make use of long and tedious "Criterias classes" for filtering queries, instead any repository class 
 created using the ```mango:make``` command can be "Model Scoped". In simpler terms this only means that you may access 
 [Local Query Scopes](https://laravel.com/docs/master/eloquent#local-scopes) defined on your models directly on the repository class.
 
-Hence you define your query scopes once on your model classes and use them directly on your repository classes for query filtering.
+Hence, you define your query scopes once on your model classes and use them directly on your repository classes for query filtering.
 
-Consider the following example.
+Consider the following example:
 
 ```php
 <?php
@@ -329,8 +330,8 @@ class User extends Model
 }
 ```
 
-Since we've defined a local scope ```Active``` on our User Model, we do not have to re-write the same scope twice within our
-repository class. We simple use it directly on the repository class. Yes as simple as that!!
+Since we've defined a local scope ```Active``` on our User Model, we don't have to rewrite the same scope twice within our
+repository class. We simple use it directly on the repository class. Yes as simple as that!
 
 ```php
 $activeUsers = app(UserRepository::class)->active()->get();
@@ -338,7 +339,7 @@ $activeUsers = app(UserRepository::class)->active()->get();
 // Illuminate\Database\Eloquent\Collection
 ```
 
-You may even chain scopes and apply other filters as you would for any Eloquent Model instance.
+You may even chain scopes and apply other filters as you would for any Eloquent model instance:
 
 ```php
  $users = app(UserRepository::class)->popular()->active()->orderBy('created_at')->get();
@@ -379,19 +380,11 @@ If you would like the repository to be bootable use the ```LaraChimp\MangoRepo\C
 use ```LaraChimp\MangoRepo\Concerns\IsRepositoryScopable```
 
 ### Credits
-Big Thanks to all developers who worked hard to create something amazing !!
+Big Thanks to all developers who worked hard to create something amazing!
 
 [![LaraChimp](https://img.shields.io/badge/Author-LaraChimp-blue.svg?style=flat-square)](https://github.com/LaraChimp)
 
 #### Creator
 Twitter: [@PercyMamedy](https://twitter.com/PercyMamedy)
-<br/>
+
 GitHub: [percymamedy](https://github.com/percymamedy)
-
-
-
-
-
-
-
-
