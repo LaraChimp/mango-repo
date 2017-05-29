@@ -56,9 +56,12 @@ class MakeCommand extends GeneratorCommand
      */
     protected function replaceNamespace(&$stub, $name)
     {
+        // Get Root Namespace.
+        $rootNamespace = $this->laravel->getNamespace();
+
         $stub = str_replace(
             ['DummyNamespace', 'DummyRootNamespace', 'DummyTargetModel'],
-            [$this->getNamespace($name), $this->rootNamespace(), $this->option('model')],
+            [$this->getNamespace($name), $rootNamespace, $this->option('model')],
             $stub
         );
 
