@@ -28,6 +28,9 @@ $ composer require larachimp/mango-repo
 ```
 
 ### Configuration
+> If you are using Laravel >= 5.5, you can skip service registration 
+> thanks to Laravel auto package discovery feature.
+
 After installing Mango repo all you need is to register the ```LaraChimp\MangoRepo\MangoRepoServiceProvider``` in your `config/app.php` configuration file:
 
 ```php
