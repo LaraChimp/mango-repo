@@ -2,14 +2,9 @@
 
 namespace LaraChimp\MangoRepo;
 
-use Doctrine\Common\Cache\Cache;
 use LaraChimp\MangoRepo\Contracts\Repository;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use LaraChimp\MangoRepo\Doctrine\Annotations\Reader;
 use Illuminate\Support\ServiceProvider as BaseProvider;
-use Doctrine\Common\Annotations\Reader as ReaderContract;
-use LaraChimp\MangoRepo\Doctrine\Cache\LaravelCacheDriver;
+use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 
 class MangoRepoServiceProvider extends BaseProvider
 {
@@ -28,7 +23,7 @@ class MangoRepoServiceProvider extends BaseProvider
             ]);
         }
 
-        $this->bootRepositories();
+        $this->bootAnnotations();
     }
 
     /**
@@ -38,28 +33,18 @@ class MangoRepoServiceProvider extends BaseProvider
      */
     public function register()
     {
-        $this->registerAnnotations();
+        $this->registerRepositories();
     }
 
     /**
-     * We register Annotations and
-     * it's services here.
+     * Add annotation file to registry.
      *
      * @return void
      */
-    protected function registerAnnotations()
+    protected function bootAnnotations()
     {
-        // Annotation File registration.
-        AnnotationRegistry::registerFile(__DIR__.'/Annotations/EloquentModel.php');
-
-        // Contextually specify dependencies of our Annotation Reader.
-        $this->app->when(Reader::class)->needs(ReaderContract::class)->give(function () {
-            return new AnnotationReader();
-        });
-
-        $this->app->when(Reader::class)->needs(Cache::class)->give(function () {
-            return new LaravelCacheDriver($this->app->make('cache'));
-        });
+        $this->app->make(AnnotationsReader::class)
+                  ->addFilesToRegistry(__DIR__.'/Annotations/EloquentModel.php');
     }
 
     /**
@@ -67,7 +52,7 @@ class MangoRepoServiceProvider extends BaseProvider
      *
      * @return void
      */
-    protected function bootRepositories()
+    protected function registerRepositories()
     {
         $this->app->resolving(function ($repo) {
             // This is a repo.

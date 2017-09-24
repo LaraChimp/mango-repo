@@ -31,15 +31,28 @@ $ composer require larachimp/mango-repo
 > If you are using Laravel >= 5.5, you can skip service registration 
 > thanks to Laravel auto package discovery feature.
 
-After installing Mango repo all you need is to register the ```LaraChimp\MangoRepo\MangoRepoServiceProvider``` in your `config/app.php` configuration file:
+After installing Mango repo all you need is to register the ```LaraChimp\MangoRepo\MangoRepoServiceProvider``` and ```LaraChimp\PineAnnotations\PineAnnotationsServiceProvider``` 
+in your `config/app.php` configuration file:
 
 ```php
 'providers' => [
     // Other service providers...
 
+    LaraChimp\PineAnnotations\PineAnnotationsServiceProvider::class,
     LaraChimp\MangoRepo\MangoRepoServiceProvider::class,
 ],
 ```
+
+Optionally you can register the annotations reader alias.
+
+```php
+'aliases' => [
+    ...
+    'AnnotationsReader' => LaraChimp\PineAnnotations\Facades\Reader::class,
+],
+```
+
+For more information check out the [PineAnnotations package](https://github.com/LaraChimp/pine-annotations) for more information on the annotation reader.
 
 ### Creating a repository class
 Use the ```mango:make``` command to create your repository classes. This command will take as argument the repository class namesapce (from App) and 

@@ -6,11 +6,14 @@ use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use LaraChimp\MangoRepo\MangoRepoServiceProvider;
+use LaraChimp\PineAnnotations\PineAnnotationsServiceProvider;
 
 abstract class AbstractTestCase extends TestCase
 {
     /**
-     * {@inheritdoc}
+     * Setup the test environment.
+     *
+     * @return void
      */
     public function setUp()
     {
@@ -20,7 +23,9 @@ abstract class AbstractTestCase extends TestCase
     }
 
     /**
-     * {@inheritdoc}
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
      */
     public function tearDown()
     {
@@ -29,17 +34,40 @@ abstract class AbstractTestCase extends TestCase
     }
 
     /**
-     * {@inheritdoc}
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application $app
+     *
+     * @return array
      */
     protected function getPackageProviders($app)
     {
         return [
+            PineAnnotationsServiceProvider::class,
             MangoRepoServiceProvider::class,
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * Get package aliases.
+     *
+     * @param  \Illuminate\Foundation\Application $app
+     *
+     * @return array
+     */
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Acme' => 'Acme\Facade',
+        ];
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application $app
+     *
+     * @return void
      */
     protected function getEnvironmentSetUp($app)
     {

@@ -2,11 +2,12 @@
 
 namespace LaraChimp\MangoRepo\Concerns;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use LaraChimp\MangoRepo\Annotations\EloquentModel;
-use LaraChimp\MangoRepo\Doctrine\Annotations\Reader;
 use LaraChimp\MangoRepo\Exceptions\InvalidModelException;
 use LaraChimp\MangoRepo\Exceptions\UnspecifiedModelException;
+use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 
 trait IsRepositoryBootable
 {
@@ -70,26 +71,59 @@ trait IsRepositoryBootable
      */
     protected function getEloquentModelByAnnotation()
     {
-        // Get Class Annotations for EloquentModel.
-        $classAnnotations = app()->make(Reader::class)->getClassAnnotationsFor($this)->reject(function ($item) {
-            return ! ($item instanceof EloquentModel);
-        });
+        return $this->findFirstEloquentModel($this->readEloquentModelClassAnnotations());
+    }
 
-        // No EloquentModel annotation class found.
-        if ($classAnnotations->isEmpty()) {
-            $this->sendUnspecifiedModelException();
-        }
-
+    /**
+     * Find the first Eloquent Model specified by the annotations.
+     *
+     * @param Collection $annotations
+     *
+     * @return Model
+     */
+    protected function findFirstEloquentModel(Collection $annotations)
+    {
         // Get EloquentModel
-        $eloquentModel = app()->make($classAnnotations->first()->target);
+        $eloquentModel = app()->make($annotations->first()->target);
 
         // Not an instance of Model.
         if (! $eloquentModel instanceof Model) {
             $this->sendInvalidModelException();
         }
 
-        // Return EloquentModel.
         return $eloquentModel;
+    }
+
+    /**
+     * Get EloquentModel annotations on the class.
+     *
+     * @return Collection
+     */
+    protected function readEloquentModelClassAnnotations()
+    {
+        $annotations = $this->getAnnotationsReader()
+                            ->target('class')
+                            ->read($this)
+                            ->reject(function ($item) {
+                                return ! ($item instanceof EloquentModel);
+                            });
+
+        // No EloquentModel annotation class found.
+        if ($annotations->isEmpty()) {
+            $this->sendUnspecifiedModelException();
+        }
+
+        return $annotations;
+    }
+
+    /**
+     * Get the AnnotationsReader instance.
+     *
+     * @return AnnotationsReader
+     */
+    protected function getAnnotationsReader()
+    {
+        return app()->make(AnnotationsReader::class);
     }
 
     /**

@@ -5,7 +5,9 @@ namespace LaraChimp\MangoRepo\Tests;
 class TestMakeCommand extends AbstractTestCase
 {
     /**
-     * {@inheritdoc}
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
      */
     public function tearDown()
     {
@@ -46,8 +48,10 @@ class TestMakeCommand extends AbstractTestCase
         ]);
 
         $this->assertFileExists(realpath($this->app->basePath().'/app/Repositories/FooRepository.php'));
-        $this->assertFileEquals(realpath(__DIR__.'/Fixtures/files-expectations/FooRepository.php'),
-            realpath($this->app->basePath().'/app/Repositories/FooRepository.php'));
+        $this->assertFileEquals(
+            realpath(__DIR__.'/Fixtures/files-expectations/FooRepository.php'),
+            realpath($this->app->basePath().'/app/Repositories/FooRepository.php')
+        );
     }
 
     /**
@@ -65,7 +69,9 @@ class TestMakeCommand extends AbstractTestCase
         ]);
 
         $this->assertFileExists(realpath($this->app->basePath().'/app/Repositories/FooRepositoryAnnotated.php'));
-        $this->assertFileEquals(realpath(__DIR__.'/Fixtures/files-expectations/FooRepositoryAnnotated.php'),
-            realpath($this->app->basePath().'/app/Repositories/FooRepositoryAnnotated.php'));
+        $this->assertFileEquals(
+            realpath(__DIR__.'/Fixtures/files-expectations/FooRepositoryAnnotated.php'),
+            realpath($this->app->basePath().'/app/Repositories/FooRepositoryAnnotated.php')
+        );
     }
 }
