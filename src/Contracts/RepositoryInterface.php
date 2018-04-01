@@ -2,7 +2,7 @@
 
 namespace LaraChimp\MangoRepo\Contracts;
 
-interface Repository
+interface RepositoryInterface
 {
     /**
      * Get all of the models from the database.
