@@ -2,9 +2,9 @@
 
 namespace LaraChimp\MangoRepo;
 
-use LaraChimp\MangoRepo\Contracts\Repository;
 use Illuminate\Support\ServiceProvider as BaseProvider;
 use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
+use LaraChimp\MangoRepo\Contracts\RepositoryInterface as RepositoryContract;
 
 class MangoRepoServiceProvider extends BaseProvider
 {
@@ -56,7 +56,7 @@ class MangoRepoServiceProvider extends BaseProvider
     {
         $this->app->resolving(function ($repo) {
             // This is a repo.
-            if ($repo instanceof Repository) {
+            if ($repo instanceof RepositoryContract) {
                 // Boot the Repository.
                 $repo->boot();
             }
