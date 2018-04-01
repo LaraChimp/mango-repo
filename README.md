@@ -120,7 +120,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Posts;
 
-class FooController extends Controller 
+class PostController extends Controller 
 {
     /**
      * Posts repository instance.
@@ -153,7 +153,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Posts;
 
-class FooController extends Controller 
+class PostController extends Controller 
 {
     public function index()
     {
