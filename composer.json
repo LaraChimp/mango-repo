@@ -17,8 +17,8 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "illuminate/support": "~5.0",
-        "larachimp/pine-annotations": "~0.1"
+        "illuminate/support": "5.0.*|5.1.*|5.2.*|5.4.*|5.5.*",
+        "larachimp/pine-annotations": "0.1.*"
     },
     "require-dev": {
         "orchestra/testbench": "~3.0",
