@@ -118,6 +118,8 @@ trait IsRepositorable
      * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function delete($idOrModel)
     {
