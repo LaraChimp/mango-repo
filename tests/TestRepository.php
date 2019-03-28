@@ -265,4 +265,40 @@ class TestRepository extends AbstractTestCase
             ],
         ], $bins->toArray());
     }
+
+    /**
+     * Test that after the fill method Model is cleared.
+     *
+     * @return void
+     */
+    public function testModelIsClearedAfterQueryAfterFill()
+    {
+        // Given we filled something into the model
+        // of a Repo.
+        $foos = $this->app->make(FooRepository::class);
+        $model = $foos->fill(['name' => 'Something']);
+
+        // Then Model is cleared.
+        $this->assertCount(0, $foos->getModel()->getAttributes());
+        $this->assertCount(1, $model->getAttributes());
+        $this->assertInstanceOf(Foo::class, $model);
+    }
+
+    /**
+     * Test that after the Force fill method Model is cleared.
+     *
+     * @return void
+     */
+    public function testModelIsClearedAfterQueryAfterForceFill()
+    {
+        // Given we filled something into the model
+        // of a Repo.
+        $foos = $this->app->make(FooRepository::class);
+        $model = $foos->forceFill(['name' => 'Something']);
+
+        // Then Model is cleared.
+        $this->assertCount(0, $foos->getModel()->getAttributes());
+        $this->assertCount(1, $model->getAttributes());
+        $this->assertInstanceOf(Foo::class, $model);
+    }
 }

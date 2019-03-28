@@ -18,7 +18,7 @@ trait IsRepositoryBootable
      */
     public function boot()
     {
-        $this->setModel($this->getEloquentModel());
+        $this->resetModel();
 
         return $this;
     }
