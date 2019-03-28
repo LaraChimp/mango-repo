@@ -38,63 +38,6 @@ trait IsRepositorable
     }
 
     /**
-     * Get all of the models from the database.
-     *
-     * @param array|mixed $columns
-     *
-     * @return \Illuminate\Database\Eloquent\Collection;
-     */
-    public function all($columns = ['*'])
-    {
-        return $this->getModel()->all($columns);
-    }
-
-    /**
-     * Paginate the given query.
-     *
-     * @param  int      $perPage
-     * @param  array    $columns
-     * @param  string   $pageName
-     * @param  int|null $page
-     *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-        return $this->getModel()->paginate($perPage, $columns, $pageName, $page);
-    }
-
-    /**
-     * Paginate the given query into a simple paginator.
-     *
-     * @param  int      $perPage
-     * @param  array    $columns
-     * @param  string   $pageName
-     * @param  int|null $page
-     *
-     * @return \Illuminate\Contracts\Pagination\Paginator
-     */
-    public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-        return $this->getModel()->simplePaginate($perPage, $columns, $pageName, $page);
-    }
-
-    /**
-     * Save a new model and return the instance.
-     *
-     * @param  array $attributes
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function create(array $attributes = [])
-    {
-        // Fill Model with data.
-        return $this->getModel()->create($attributes);
-    }
-
-    /**
      * Update a Model in the database.
      *
      * @param array                                     $values
@@ -106,10 +49,10 @@ trait IsRepositorable
     public function update(array $values, $idOrModel, array $options = [])
     {
         // Get the Model instance first.
-        $model = ($idOrModel instanceof Model) ? $idOrModel : $this->getModel()->findOrFail($idOrModel);
+        $model = ($idOrModel instanceof Model) ? $idOrModel : $this->findOrFail($idOrModel);
 
         // Update model.
-        return $model->update($values, $options);
+        return $this->response($model->update($values, $options));
     }
 
     /**
@@ -117,45 +60,17 @@ trait IsRepositorable
      *
      * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
      *
-     * @return mixed
+     * @return bool|null
      *
      * @throws \Exception
      */
     public function delete($idOrModel)
     {
         // Get the Model instance first.
-        $model = ($idOrModel instanceof Model) ? $idOrModel : $this->getModel()->findOrFail($idOrModel);
+        $model = ($idOrModel instanceof Model) ? $idOrModel : $this->findOrFail($idOrModel);
 
         // Delete model.
-        return $model->delete();
-    }
-
-    /**
-     * Find a Model in the Database using the ID.
-     *
-     * @param mixed $id
-     * @param array $columns
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function find($id, $columns = ['*'])
-    {
-        return $this->getModel()->find($id, $columns);
-    }
-
-    /**
-     * Find a Model in the Database or throw an exception.
-     *
-     * @param mixed $id
-     * @param array $columns
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function findOrFail($id, $columns = ['*'])
-    {
-        return $this->getModel()->findOrFail($id, $columns);
+        return $this->response($model->delete());
     }
 
     /**
@@ -180,6 +95,30 @@ trait IsRepositorable
         }
 
         // Return models.
-        return $model->get($columns);
+        return $this->response($model->get($columns));
+    }
+
+    /**
+     * Return response from repository.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    protected function response($value)
+    {
+        return tap($value, function ($results) {
+            $this->resetModel();
+        });
+    }
+
+    /**
+     * Resets the Model on the repository.
+     *
+     * @return void
+     */
+    protected function resetModel()
+    {
+        $this->setModel($this->getEloquentModel());
     }
 }
