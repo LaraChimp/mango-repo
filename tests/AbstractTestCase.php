@@ -15,11 +15,11 @@ abstract class AbstractTestCase extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->createAppropriateTables();
-        $this->withFactories(__DIR__.'/Fixtures/database/factories');
+        $this->withFactories(__DIR__ . '/Fixtures/database/factories');
     }
 
     /**
@@ -27,7 +27,7 @@ abstract class AbstractTestCase extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->dropAllTables();
         parent::tearDown();

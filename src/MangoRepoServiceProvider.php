@@ -12,6 +12,8 @@ class MangoRepoServiceProvider extends BaseProvider
      * Bootstrap the application services.
      *
      * @return void
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot()
     {
@@ -40,6 +42,8 @@ class MangoRepoServiceProvider extends BaseProvider
      * Add annotation file to registry.
      *
      * @return void
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function bootAnnotations()
     {

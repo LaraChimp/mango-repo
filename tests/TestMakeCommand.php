@@ -9,7 +9,7 @@ class TestMakeCommand extends AbstractTestCase
      *
      * @return void
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->app->make('filesystem')->disk('app')->deleteDirectory('app/Repositories');
 

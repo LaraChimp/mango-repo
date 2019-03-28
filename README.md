@@ -20,6 +20,20 @@ tries to use as much of the Eloquent API as possible and keeping things simple.
 ## License
 Mango Repo is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
+## Version Compatibility
+
+ Laravel  | MangoRepo
+:---------|:----------
+ 5.0.x    | 0.2.x
+ 5.1.x    | 0.2.x
+ 5.2.x    | 0.2.x
+ 5.3.x    | 0.2.x
+ 5.4.x    | 0.2.x
+ 5.5.x    | 0.2.x
+ 5.6.x    | 0.3.x
+ 5.7.x    | 0.3.x
+ 5.8.x    | 0.4.x
+ 
 ### Installation
 Install Mango Repo as you would with any other dependency managed by Composer:
 
