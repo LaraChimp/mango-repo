@@ -19,7 +19,7 @@ abstract class AbstractTestCase extends TestCase
     {
         parent::setUp();
         $this->createAppropriateTables();
-        $this->withFactories(__DIR__ . '/Fixtures/database/factories');
+        $this->withFactories(__DIR__.'/Fixtures/database/factories');
     }
 
     /**
