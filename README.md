@@ -33,6 +33,7 @@ Mango Repo is open-sourced software licensed under the [MIT license](http://open
  5.6.x    | 0.3.x
  5.7.x    | 0.3.x
  5.8.x    | 0.4.x
+ 6.x      | 1.x
  
 ### Installation
 Install Mango Repo as you would with any other dependency managed by Composer:

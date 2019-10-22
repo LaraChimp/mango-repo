@@ -151,11 +151,12 @@ class TestRepository extends AbstractTestCase
     /**
      * Test the delete method.
      *
-     * @expectedException \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return void
      */
     public function testDeleteMethod()
     {
+        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+
         $user1 = factory(User::class)->create([
             'name'  => 'User 1',
             'email' => 'hello@larachimp.com',
@@ -201,11 +202,12 @@ class TestRepository extends AbstractTestCase
     /**
      * Test the findOrFail method.
      *
-     * @expectedException \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return void
      */
     public function testFindOrFailMethod()
     {
+        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+
         $user1 = factory(User::class)->create([
             'name'  => 'User 1',
             'email' => 'hello@larachimp.com',
