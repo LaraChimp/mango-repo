@@ -52,12 +52,12 @@ class TestRepositoryScopes extends AbstractTestCase
     /**
      * We will test if an inexistent method is called.
      *
-     * @expectedException \BadMethodCallException
-     *
      * @return void
      */
     public function testInExistentScope()
     {
+        $this->expectException(\BadMethodCallException::class);
+
         $foos = $this->app->make(FooRepository::class);
         $foos->isNotActive()->get();
     }
