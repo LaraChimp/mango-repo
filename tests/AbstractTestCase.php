@@ -2,11 +2,11 @@
 
 namespace LaraChimp\MangoRepo\Tests;
 
-use Orchestra\Testbench\TestCase;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use LaraChimp\MangoRepo\MangoRepoServiceProvider;
 use LaraChimp\PineAnnotations\PineAnnotationsServiceProvider;
+use Orchestra\Testbench\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {

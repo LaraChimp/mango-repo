@@ -3,9 +3,9 @@
 namespace LaraChimp\MangoRepo\Tests;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo;
 use LaraChimp\MangoRepo\Tests\Fixtures\Models\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use LaraChimp\MangoRepo\Tests\Fixtures\Repositories\FooRepository;
 use LaraChimp\MangoRepo\Tests\Fixtures\Repositories\UserRepository;
 
