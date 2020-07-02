@@ -2,8 +2,8 @@
 
 namespace LaraChimp\MangoRepo\Tests\Fixtures\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
