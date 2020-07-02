@@ -2,8 +2,8 @@
 
 namespace LaraChimp\MangoRepo\Concerns;
 
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use LaraChimp\MangoRepo\Annotations\EloquentModel;
 use LaraChimp\MangoRepo\Exceptions\InvalidModelException;
 use LaraChimp\MangoRepo\Exceptions\UnspecifiedModelException;

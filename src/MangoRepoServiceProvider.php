@@ -3,8 +3,8 @@
 namespace LaraChimp\MangoRepo;
 
 use Illuminate\Support\ServiceProvider as BaseProvider;
-use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\MangoRepo\Contracts\RepositoryInterface as RepositoryContract;
+use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 
 class MangoRepoServiceProvider extends BaseProvider
 {
