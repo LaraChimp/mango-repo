@@ -77,8 +77,7 @@ trait IsRepositoryBootable
     /**
      * Find the first Eloquent Model specified by the annotations.
      *
-     * @param Collection $annotations
-     *
+     * @param  Collection  $annotations
      * @return Model
      */
     protected function findFirstEloquentModel(Collection $annotations)

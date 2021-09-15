@@ -16,6 +16,7 @@ class EloquentModel
      * use for the repository.
      *
      * @Required
+     *
      * @var string
      */
     public $target;

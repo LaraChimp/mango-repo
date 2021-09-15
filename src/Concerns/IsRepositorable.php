@@ -16,8 +16,7 @@ trait IsRepositorable
     /**
      * Sets the Model to the Repo.
      *
-     * @param Model $model
-     *
+     * @param  Model  $model
      * @return self
      */
     public function setModel(Model $model)
@@ -40,10 +39,9 @@ trait IsRepositorable
     /**
      * Update a Model in the database.
      *
-     * @param array                                     $values
-     * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
-     * @param array                                     $options
-     *
+     * @param  array  $values
+     * @param  \Illuminate\Database\Eloquent\Model|mixed  $idOrModel
+     * @param  array  $options
      * @return bool
      */
     public function update(array $values, $idOrModel, array $options = [])
@@ -58,8 +56,7 @@ trait IsRepositorable
     /**
      * Delete a record from the database.
      *
-     * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
-     *
+     * @param  \Illuminate\Database\Eloquent\Model|mixed  $idOrModel
      * @return bool|null
      *
      * @throws \Exception
@@ -76,9 +73,8 @@ trait IsRepositorable
     /**
      * Find a Model or Models Using some criteria.
      *
-     * @param array $criteria
-     * @param array $columns
-     *
+     * @param  array  $criteria
+     * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Collection|null
      */
     public function findBy($criteria = [], $columns = ['*'])
@@ -101,8 +97,7 @@ trait IsRepositorable
     /**
      * Return response from repository.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return mixed
      */
     protected function response($value)
