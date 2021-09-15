@@ -21,8 +21,8 @@ class TestRepositoryScopes extends AbstractTestCase
      */
     public function testLocalScopeOnModelIsAppliedWhenQueringByRepository()
     {
-        factory(User::class, 5)->create();
-        factory(User::class, 3)->create([
+        User::factory(5)->create();
+        User::factory(3)->create([
             'is_active' => false,
         ]);
 
@@ -40,8 +40,8 @@ class TestRepositoryScopes extends AbstractTestCase
      */
     public function testGlobalScopeOnModelIsAppliedWhenQueringByRepository()
     {
-        factory(Bar::class, 5)->create();
-        factory(Bar::class, 3)->create([
+        Bar::factory(5)->create();
+        Bar::factory(3)->create([
             'is_active' => false,
         ]);
 

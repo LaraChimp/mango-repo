@@ -19,7 +19,6 @@ abstract class AbstractTestCase extends TestCase
     {
         parent::setUp();
         $this->createAppropriateTables();
-        $this->withFactories(__DIR__.'/Fixtures/database/factories');
     }
 
     /**
@@ -36,8 +35,7 @@ abstract class AbstractTestCase extends TestCase
     /**
      * Get package providers.
      *
-     * @param  \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -49,24 +47,9 @@ abstract class AbstractTestCase extends TestCase
     }
 
     /**
-     * Get package aliases.
-     *
-     * @param  \Illuminate\Foundation\Application $app
-     *
-     * @return array
-     */
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Acme' => 'Acme\Facade',
-        ];
-    }
-
-    /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)

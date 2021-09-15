@@ -7,10 +7,9 @@ interface RepositoryInterface
     /**
      * Update a Model in the database.
      *
-     * @param array                                     $values
-     * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
-     * @param array                                     $options
-     *
+     * @param  array  $values
+     * @param  \Illuminate\Database\Eloquent\Model|mixed  $idOrModel
+     * @param  array  $options
      * @return bool
      */
     public function update(array $values, $idOrModel, array $options = []);
@@ -18,8 +17,7 @@ interface RepositoryInterface
     /**
      * Delete a record from the database.
      *
-     * @param \Illuminate\Database\Eloquent\Model|mixed $idOrModel
-     *
+     * @param  \Illuminate\Database\Eloquent\Model|mixed  $idOrModel
      * @return mixed
      */
     public function delete($idOrModel);
@@ -27,9 +25,8 @@ interface RepositoryInterface
     /**
      * Find a Model or Models Using some criteria.
      *
-     * @param array $criteria
-     * @param array $columns
-     *
+     * @param  array  $criteria
+     * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Collection|null
      */
     public function findBy($criteria = [], $columns = ['*']);
