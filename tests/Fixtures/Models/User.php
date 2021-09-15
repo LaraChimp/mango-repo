@@ -35,8 +35,7 @@ class User extends Model
     /**
      * Apply an is active scope filter to the model.
      *
-     * @param Builder $query
-     *
+     * @param  Builder  $query
      * @return Builder
      */
     public function scopeIsActive($query)

@@ -3,8 +3,8 @@
 namespace LaraChimp\MangoRepo\Tests\Fixtures\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use LaraChimp\MangoRepo\Tests\Fixtures\Models\User;
 use Illuminate\Support\Str;
+use LaraChimp\MangoRepo\Tests\Fixtures\Models\User;
 
 class UserFactory extends Factory
 {
