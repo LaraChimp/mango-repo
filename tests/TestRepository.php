@@ -3,6 +3,7 @@
 namespace LaraChimp\MangoRepo\Tests;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use LaraChimp\MangoRepo\Tests\Fixtures\Models\Foo;
 use LaraChimp\MangoRepo\Tests\Fixtures\Models\User;
@@ -45,11 +46,12 @@ class TestRepository extends AbstractTestCase
      */
     public function testAllMethod()
     {
-        factory(User::class)->create([
+        User::factory()->create([
             'email' => 'hello@larachimp.com',
             'name'  => 'User 1',
         ]);
-        factory(User::class)->create([
+
+        User::factory()->create([
             'email' => 'hello2@larachimp.com',
             'name'  => 'User 2',
         ]);
@@ -80,7 +82,7 @@ class TestRepository extends AbstractTestCase
      */
     public function testPaginateMethod()
     {
-        factory(Foo::class, 20)->create();
+        Foo::factory(20)->create();
         $foos = $this->app->make(FooRepository::class);
 
         $foosPaginated = $foos->paginate(10);
@@ -96,7 +98,7 @@ class TestRepository extends AbstractTestCase
      */
     public function testSimplePaginateMethod()
     {
-        factory(Foo::class, 20)->create();
+        Foo::factory(20)->create();
         $foos = $this->app->make(FooRepository::class);
 
         $foosPaginated = $foos->simplePaginate(10);
@@ -131,7 +133,7 @@ class TestRepository extends AbstractTestCase
      */
     public function testUpdateMethod()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name'  => 'SomeUser',
             'email' => 'some@email.com',
         ]);
@@ -155,14 +157,14 @@ class TestRepository extends AbstractTestCase
      */
     public function testDeleteMethod()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
 
-        $user1 = factory(User::class)->create([
+        $user1 = User::factory()->create([
             'name'  => 'User 1',
             'email' => 'hello@larachimp.com',
         ]);
 
-        $user2 = factory(User::class)->create([
+        $user2 = User::factory()->create([
             'name'  => 'User 2',
             'email' => 'helloAgain@larachimp.com',
         ]);
@@ -182,7 +184,7 @@ class TestRepository extends AbstractTestCase
      */
     public function testFindMethod()
     {
-        $user1 = factory(User::class)->create([
+        $user1 = User::factory()->create([
             'name'  => 'User 1',
             'email' => 'hello@larachimp.com',
         ]);
@@ -206,9 +208,9 @@ class TestRepository extends AbstractTestCase
      */
     public function testFindOrFailMethod()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
 
-        $user1 = factory(User::class)->create([
+        $user1 = User::factory()->create([
             'name'  => 'User 1',
             'email' => 'hello@larachimp.com',
         ]);
@@ -231,15 +233,15 @@ class TestRepository extends AbstractTestCase
      */
     public function testFindByMethod()
     {
-        factory(Foo::class, 3)->create([
+        Foo::factory(3)->create([
             'name' => 'FooBar',
         ]);
 
-        factory(Foo::class, 4)->create([
+        Foo::factory(4)->create([
             'name' => 'Baz',
         ]);
 
-        factory(Foo::class, 2)->create([
+        Foo::factory(2)->create([
             'name' => 'Bin',
         ]);
 

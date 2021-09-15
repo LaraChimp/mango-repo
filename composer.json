@@ -10,14 +10,14 @@
         }
     ],
     "require": {
-        "php": "^7.2",
-        "illuminate/support": "^7.0",
-        "larachimp/pine-annotations": "^2.0"
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^8.0",
+        "larachimp/pine-annotations": "^3.0"
     },
     "require-dev": {
-        "mockery/mockery": "^1.3.1",
-        "orchestra/testbench": "^5.0",
-        "phpunit/phpunit": "^8.4|^9.0"
+        "mockery/mockery": "^1.4.3",
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.3.3"
 	},
     "autoload": {
         "psr-4": {

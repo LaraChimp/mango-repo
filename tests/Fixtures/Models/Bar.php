@@ -2,11 +2,16 @@
 
 namespace LaraChimp\MangoRepo\Tests\Fixtures\Models;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use LaraChimp\MangoRepo\Tests\Fixtures\Database\Factories\BarFactory;
 use LaraChimp\MangoRepo\Tests\Fixtures\Models\Scopes\IsActive;
 
 class Bar extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,5 +32,15 @@ class Bar extends Model
         parent::boot();
 
         static::addGlobalScope(new IsActive());
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return Factory
+     */
+    protected static function newFactory()
+    {
+        return BarFactory::new();
     }
 }

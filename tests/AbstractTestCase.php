@@ -19,7 +19,6 @@ abstract class AbstractTestCase extends TestCase
     {
         parent::setUp();
         $this->createAppropriateTables();
-        $this->withFactories(__DIR__.'/Fixtures/database/factories');
     }
 
     /**
@@ -45,20 +44,6 @@ abstract class AbstractTestCase extends TestCase
         return [
             PineAnnotationsServiceProvider::class,
             MangoRepoServiceProvider::class,
-        ];
-    }
-
-    /**
-     * Get package aliases.
-     *
-     * @param  \Illuminate\Foundation\Application $app
-     *
-     * @return array
-     */
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Acme' => 'Acme\Facade',
         ];
     }
 
